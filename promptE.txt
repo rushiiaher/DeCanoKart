@@ -1,0 +1,963 @@
+# Professional Seller Dashboard Design & Implementation
+
+## 🎯 SELLER DASHBOARD CONCEPT
+
+Create a comprehensive, intuitive seller dashboard that empowers vendors to manage their products, orders, and business analytics efficiently. Design inspired by Amazon Seller Central, Shopify, and Etsy Seller Dashboard.
+
+## 📊 DASHBOARD ARCHITECTURE
+
+### 1. MAIN DASHBOARD LAYOUT
+```
+STRUCTURE:
+- Left Sidebar: Navigation (collapsible)
+- Top Bar: Search, notifications, profile
+- Main Content: Dynamic based on section
+- Right Panel: Quick stats/actions (optional)
+
+RESPONSIVE BREAKPOINTS:
+- Desktop: Full layout (1200px+)
+- Tablet: Collapsible sidebar (768px-1199px)
+- Mobile: Bottom navigation (< 768px)
+```
+
+### 2. NAVIGATION STRUCTURE
+```
+SIDEBAR MENU:
+📊 Dashboard (Overview)
+📦 Products
+  └─ All Products
+  └─ Add New Product
+  └─ Inventory Management
+  └─ Bulk Upload
+📋 Orders
+  └─ All Orders
+  └─ Pending Orders
+  └─ Completed Orders
+  └─ Returns/Refunds
+💰 Payments
+  └─ Earnings
+  └─ Payouts
+  └─ Transaction History
+📈 Analytics
+  └─ Sales Reports
+  └─ Product Performance
+  └─ Customer Insights
+🔔 Notifications
+⚙️ Settings
+  └─ Store Settings
+  └─ Shipping Settings
+  └─ Payment Settings
+  └─ Tax Settings
+❓ Help & Support
+```
+
+## 🏠 DASHBOARD OVERVIEW PAGE
+
+### 1. KEY METRICS CARDS
+```jsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  {/* Today's Sales */}
+  <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+    <div className="flex items-center justify-between mb-4">
+      <div className="p-3 bg-blue-50 rounded-lg">
+        <svg className="w-6 h-6 text-blue-600">💰</svg>
+      </div>
+      <span className="text-sm text-green-600 font-medium">+12.5%</span>
+    </div>
+    <h3 className="text-2xl font-bold text-gray-900">₹24,580</h3>
+    <p className="text-sm text-gray-600 mt-1">Today's Revenue</p>
+  </div>
+
+  {/* Total Orders */}
+  <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+    <div className="flex items-center justify-between mb-4">
+      <div className="p-3 bg-purple-50 rounded-lg">
+        <svg className="w-6 h-6 text-purple-600">📦</svg>
+      </div>
+      <span className="text-sm text-green-600 font-medium">+8.2%</span>
+    </div>
+    <h3 className="text-2xl font-bold text-gray-900">156</h3>
+    <p className="text-sm text-gray-600 mt-1">Total Orders</p>
+  </div>
+
+  {/* Active Products */}
+  <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+    <div className="flex items-center justify-between mb-4">
+      <div className="p-3 bg-green-50 rounded-lg">
+        <svg className="w-6 h-6 text-green-600">🛍️</svg>
+      </div>
+      <span className="text-sm text-gray-600 font-medium">Active</span>
+    </div>
+    <h3 className="text-2xl font-bold text-gray-900">342</h3>
+    <p className="text-sm text-gray-600 mt-1">Listed Products</p>
+  </div>
+
+  {/* Pending Actions */}
+  <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+    <div className="flex items-center justify-between mb-4">
+      <div className="p-3 bg-red-50 rounded-lg">
+        <svg className="w-6 h-6 text-red-600">⚠️</svg>
+      </div>
+      <button className="text-sm text-blue-600 hover:underline">View</button>
+    </div>
+    <h3 className="text-2xl font-bold text-gray-900">12</h3>
+    <p className="text-sm text-gray-600 mt-1">Pending Actions</p>
+  </div>
+</div>
+```
+
+### 2. QUICK ACTIONS SECTION
+```jsx
+<div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+  <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all">
+      <svg className="w-8 h-8 mx-auto mb-2 text-gray-400">➕</svg>
+      <span className="text-sm font-medium">Add Product</span>
+    </button>
+    <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all">
+      <svg className="w-8 h-8 mx-auto mb-2 text-gray-400">📤</svg>
+      <span className="text-sm font-medium">Bulk Upload</span>
+    </button>
+    <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all">
+      <svg className="w-8 h-8 mx-auto mb-2 text-gray-400">📊</svg>
+      <span className="text-sm font-medium">View Reports</span>
+    </button>
+    <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all">
+      <svg className="w-8 h-8 mx-auto mb-2 text-gray-400">💳</svg>
+      <span className="text-sm font-medium">Payouts</span>
+    </button>
+  </div>
+</div>
+```
+
+## 📝 ADD/EDIT PRODUCT PAGE
+
+### 1. MULTI-STEP FORM DESIGN
+```jsx
+const ProductForm = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const steps = [
+    { id: 1, name: 'Basic Info', icon: '📋' },
+    { id: 2, name: 'Media', icon: '🖼️' },
+    { id: 3, name: 'Pricing & Inventory', icon: '💰' },
+    { id: 4, name: 'Shipping', icon: '📦' },
+    { id: 5, name: 'SEO & Visibility', icon: '🔍' }
+  ];
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* Progress Steps */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between">
+          {steps.map((step, index) => (
+            <div key={step.id} className="flex items-center flex-1">
+              <div className={`
+                flex items-center justify-center w-10 h-10 rounded-full
+                ${currentStep >= step.id ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}
+              `}>
+                <span>{step.icon}</span>
+              </div>
+              {index < steps.length - 1 && (
+                <div className={`flex-1 h-1 mx-2 ${currentStep > step.id ? 'bg-blue-600' : 'bg-gray-200'}`} />
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between mt-2">
+          {steps.map(step => (
+            <span key={step.id} className="text-xs text-gray-600">{step.name}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Form Content */}
+      <div className="bg-white rounded-xl shadow-sm p-8">
+        {currentStep === 1 && <BasicInfoStep />}
+        {currentStep === 2 && <MediaStep />}
+        {currentStep === 3 && <PricingStep />}
+        {currentStep === 4 && <ShippingStep />}
+        {currentStep === 5 && <SEOStep />}
+      </div>
+    </div>
+  );
+};
+```
+
+### 2. STEP 1: BASIC INFORMATION
+```jsx
+const BasicInfoStep = () => (
+  <div className="space-y-6">
+    <h2 className="text-2xl font-bold mb-6">Basic Product Information</h2>
+    
+    {/* Product Name */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Product Name <span className="text-red-500">*</span>
+      </label>
+      <input
+        type="text"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        placeholder="Enter product name"
+      />
+      <p className="mt-1 text-sm text-gray-500">Make it descriptive and keyword-rich</p>
+    </div>
+
+    {/* Category Selection */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Category <span className="text-red-500">*</span>
+        </label>
+        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+          <option>Select Category</option>
+          <option>Electronics</option>
+          <option>Fashion</option>
+          <option>Home & Living</option>
+        </select>
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Subcategory
+        </label>
+        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+          <option>Select Subcategory</option>
+        </select>
+      </div>
+    </div>
+
+    {/* Brand */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Brand
+      </label>
+      <input
+        type="text"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+        placeholder="Enter brand name"
+      />
+    </div>
+
+    {/* Description */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Product Description
+      </label>
+      <div className="border border-gray-300 rounded-lg overflow-hidden">
+        {/* Rich Text Editor */}
+        <div className="bg-gray-50 px-4 py-2 border-b border-gray-300">
+          <div className="flex gap-2">
+            <button className="p-1 hover:bg-gray-200 rounded"><b>B</b></button>
+            <button className="p-1 hover:bg-gray-200 rounded"><i>I</i></button>
+            <button className="p-1 hover:bg-gray-200 rounded"><u>U</u></button>
+            <button className="p-1 hover:bg-gray-200 rounded">• List</button>
+          </div>
+        </div>
+        <textarea
+          className="w-full px-4 py-3 min-h-[200px] focus:outline-none"
+          placeholder="Describe your product in detail..."
+        />
+      </div>
+      <p className="mt-1 text-sm text-gray-500">Include key features, benefits, and specifications</p>
+    </div>
+  </div>
+);
+```
+
+### 3. STEP 2: MEDIA UPLOAD
+```jsx
+const MediaStep = () => (
+  <div className="space-y-6">
+    <h2 className="text-2xl font-bold mb-6">Product Images & Media</h2>
+    
+    {/* Primary Image */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Primary Image <span className="text-red-500">*</span>
+      </label>
+      <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors cursor-pointer">
+        <svg className="w-12 h-12 mx-auto text-gray-400 mb-4">📸</svg>
+        <p className="text-sm text-gray-600 mb-2">Drop image here or click to upload</p>
+        <p className="text-xs text-gray-500">PNG, JPG up to 5MB (Min: 800x800px)</p>
+        <input type="file" className="hidden" accept="image/*" />
+      </div>
+    </div>
+
+    {/* Additional Images */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Additional Images <span className="text-sm text-gray-500">(Up to 8)</span>
+      </label>
+      <div className="grid grid-cols-4 gap-4">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+            <svg className="w-8 h-8 text-gray-400">➕</svg>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* 360° View Upload */}
+    <div className="bg-blue-50 rounded-lg p-4">
+      <div className="flex items-start gap-3">
+        <svg className="w-6 h-6 text-blue-600 mt-0.5">🔄</svg>
+        <div>
+          <h4 className="font-medium text-blue-900">Add 360° View</h4>
+          <p className="text-sm text-blue-700 mt-1">Upload multiple angles for interactive view</p>
+          <button className="mt-2 text-sm text-blue-600 hover:underline">Learn how →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+```
+
+### 4. STEP 3: PRICING & INVENTORY
+```jsx
+const PricingStep = () => (
+  <div className="space-y-6">
+    <h2 className="text-2xl font-bold mb-6">Pricing & Inventory</h2>
+    
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Pricing */}
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Selling Price <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <span className="absolute left-3 top-2 text-gray-500">₹</span>
+            <input
+              type="number"
+              className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="0.00"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Compare at Price <span className="text-sm text-gray-500">(Original/MRP)</span>
+          </label>
+          <div className="relative">
+            <span className="absolute left-3 top-2 text-gray-500">₹</span>
+            <input
+              type="number"
+              className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="0.00"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Cost per Item <span className="text-sm text-gray-500">(For profit tracking)</span>
+          </label>
+          <div className="relative">
+            <span className="absolute left-3 top-2 text-gray-500">₹</span>
+            <input
+              type="number"
+              className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="0.00"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Inventory */}
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            SKU (Stock Keeping Unit)
+          </label>
+          <input
+            type="text"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            placeholder="AUTO-GENERATED"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Available Quantity <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            placeholder="0"
+          />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <input type="checkbox" id="track-inventory" className="w-4 h-4 text-blue-600 rounded" />
+          <label htmlFor="track-inventory" className="text-sm text-gray-700">
+            Track inventory for this product
+          </label>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <input type="checkbox" id="continue-selling" className="w-4 h-4 text-blue-600 rounded" />
+          <label htmlFor="continue-selling" className="text-sm text-gray-700">
+            Continue selling when out of stock
+          </label>
+        </div>
+      </div>
+    </div>
+
+    {/* Profit Margin Calculator */}
+    <div className="bg-green-50 rounded-lg p-4">
+      <h4 className="font-medium text-green-900 mb-2">Profit Margin Calculator</h4>
+      <div className="grid grid-cols-3 gap-4 text-sm">
+        <div>
+          <span className="text-green-700">Profit:</span>
+          <p className="font-bold text-green-900">₹150</p>
+        </div>
+        <div>
+          <span className="text-green-700">Margin:</span>
+          <p className="font-bold text-green-900">25%</p>
+        </div>
+        <div>
+          <span className="text-green-700">After Fees:</span>
+          <p className="font-bold text-green-900">₹120</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+```
+
+### 5. STEP 4: SHIPPING INFORMATION
+```jsx
+const ShippingStep = () => (
+  <div className="space-y-6">
+    <h2 className="text-2xl font-bold mb-6">Shipping Information</h2>
+    
+    {/* Physical Product Details */}
+    <div>
+      <h3 className="font-medium text-gray-900 mb-4">Package Dimensions</h3>
+      <div className="grid grid-cols-3 gap-4">
+        <div>
+          <label className="block text-sm text-gray-600 mb-1">Weight</label>
+          <div className="flex gap-2">
+            <input type="number" className="flex-1 px-3 py-2 border rounded-lg" placeholder="0" />
+            <select className="px-3 py-2 border rounded-lg">
+              <option>kg</option>
+              <option>g</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm text-gray-600 mb-1">Length</label>
+          <div className="flex gap-2">
+            <input type="number" className="flex-1 px-3 py-2 border rounded-lg" placeholder="0" />
+            <span className="px-3 py-2">cm</span>
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm text-gray-600 mb-1">Width</label>
+          <div className="flex gap-2">
+            <input type="number" className="flex-1 px-3 py-2 border rounded-lg" placeholder="0" />
+            <span className="px-3 py-2">cm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Shipping Options */}
+    <div>
+      <h3 className="font-medium text-gray-900 mb-4">Shipping Methods</h3>
+      <div className="space-y-3">
+        <label className="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+          <input type="radio" name="shipping" className="mr-3" />
+          <div className="flex-1">
+            <p className="font-medium">Standard Shipping</p>
+            <p className="text-sm text-gray-600">5-7 business days</p>
+          </div>
+          <span className="font-medium">₹50</span>
+        </label>
+        
+        <label className="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+          <input type="radio" name="shipping" className="mr-3" />
+          <div className="flex-1">
+            <p className="font-medium">Express Shipping</p>
+            <p className="text-sm text-gray-600">2-3 business days</p>
+          </div>
+          <span className="font-medium">₹150</span>
+        </label>
+        
+        <label className="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+          <input type="radio" name="shipping" className="mr-3" />
+          <div className="flex-1">
+            <p className="font-medium">Free Shipping</p>
+            <p className="text-sm text-gray-600">On orders above ₹500</p>
+          </div>
+          <span className="font-medium">Free</span>
+        </label>
+      </div>
+    </div>
+  </div>
+);
+```
+
+### 6. STEP 5: SEO & VISIBILITY
+```jsx
+const SEOStep = () => (
+  <div className="space-y-6">
+    <h2 className="text-2xl font-bold mb-6">SEO & Product Visibility</h2>
+    
+    {/* SEO Preview */}
+    <div className="bg-gray-50 rounded-lg p-4 mb-6">
+      <p className="text-sm text-gray-600 mb-2">Search Engine Preview</p>
+      <h3 className="text-blue-600 text-lg hover:underline cursor-pointer">Product Name - Your Store</h3>
+      <p className="text-green-700 text-sm">yourstore.com/products/product-name</p>
+      <p className="text-sm text-gray-600 mt-1">Product description will appear here in search results...</p>
+    </div>
+
+    {/* SEO Fields */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        SEO Title <span className="text-sm text-gray-500">(50-60 characters)</span>
+      </label>
+      <input
+        type="text"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+        placeholder="Enter SEO optimized title"
+      />
+      <div className="mt-1 text-right">
+        <span className="text-sm text-gray-500">0/60</span>
+      </div>
+    </div>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Meta Description <span className="text-sm text-gray-500">(150-160 characters)</span>
+      </label>
+      <textarea
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+        rows="3"
+        placeholder="Enter meta description"
+      />
+      <div className="mt-1 text-right">
+        <span className="text-sm text-gray-500">0/160</span>
+      </div>
+    </div>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Product Tags <span className="text-sm text-gray-500">(Comma separated)</span>
+      </label>
+      <input
+        type="text"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+        placeholder="tag1, tag2, tag3"
+      />
+    </div>
+
+    {/* Visibility Settings */}
+    <div>
+      <h3 className="font-medium text-gray-900 mb-4">Product Visibility</h3>
+      <div className="space-y-3">
+        <label className="flex items-center">
+          <input type="radio" name="visibility" className="mr-3" checked />
+          <span>Visible (Product will be published immediately)</span>
+        </label>
+        <label className="flex items-center">
+          <input type="radio" name="visibility" className="mr-3" />
+          <span>Hidden (Save as draft)</span>
+        </label>
+        <label className="flex items-center">
+          <input type="radio" name="visibility" className="mr-3" />
+          <span>Scheduled (Set publish date)</span>
+        </label>
+      </div>
+    </div>
+  </div>
+);
+```
+
+## 📦 PRODUCT MANAGEMENT TABLE
+
+```jsx
+const ProductsTable = () => (
+  <div className="bg-white rounded-xl shadow-sm">
+    {/* Table Header with Actions */}
+    <div className="p-6 border-b border-gray-200">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-semibold">Products</h2>
+          <p className="text-sm text-gray-600 mt-1">Manage your product inventory</p>
+        </div>
+        <div className="flex gap-3">
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            + Add Product
+          </button>
+          <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+            Import
+          </button>
+          <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+            Export
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Filters */}
+    <div className="p-4 border-b border-gray-200 bg-gray-50">
+      <div className="flex flex-wrap gap-3">
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg"
+        />
+        <select className="px-4 py-2 border border-gray-300 rounded-lg">
+          <option>All Categories</option>
+        </select>
+        <select className="px-4 py-2 border border-gray-300 rounded-lg">
+          <option>All Status</option>
+          <option>Active</option>
+          <option>Draft</option>
+          <option>Out of Stock</option>
+        </select>
+      </div>
+    </div>
+
+    {/* Table */}
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead className="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th className="px-6 py-3 text-left">
+              <input type="checkbox" className="rounded" />
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">SKU</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sales</th>
+            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200">
+          <tr className="hover:bg-gray-50">
+            <td className="px-6 py-4">
+              <input type="checkbox" className="rounded" />
+            </td>
+            <td className="px-6 py-4">
+              <div className="flex items-center gap-3">
+                <img src="/product-thumb.jpg" alt="" className="w-10 h-10 rounded-lg object-cover" />
+                <div>
+                  <p className="font-medium text-gray-900">Premium Leather Bag</p>
+                  <p className="text-sm text-gray-500">Fashion & Accessories</p>
+                </div>
+              </div>
+            </td>
+            <td className="px-6 py-4 text-sm text-gray-600">SKU-12345</td>
+            <td className="px-6 py-4">
+              <div>
+                <p className="font-medium">₹2,500</p>
+                <p className="text-sm text-gray-500 line-through">₹3,000</p>
+              </div>
+            </td>
+            <td className="px-6 py-4">
+              <span className="text-sm font-medium text-orange-600">Low (5)</span>
+            </td>
+            <td className="px-6 py-4">
+              <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                Active
+              </span>
+            </td>
+            <td className="px-6 py-4 text-sm text-gray-600">234</td>
+            <td className="px-6 py-4 text-right">
+              <button className="text-gray-600 hover:text-gray-900">
+                <svg className="w-5 h-5">⋮</svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {/* Pagination */}
+    <div className="p-4 border-t border-gray-200">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-gray-600">Showing 1 to 10 of 156 products</p>
+        <div className="flex gap-2">
+          <button className="px-3 py-1 border rounded hover:bg-gray-50">Previous</button>
+          <button className="px-3 py-1 bg-blue-600 text-white rounded">1</button>
+          <button className="px-3 py-1 border rounded hover:bg-gray-50">2</button>
+          <button className="px-3 py-1 border rounded hover:bg-gray-50">3</button>
+          <button className="px-3 py-1 border rounded hover:bg-gray-50">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+```
+
+## 📊 ANALYTICS DASHBOARD
+
+```jsx
+const AnalyticsDashboard = () => (
+  <div className="space-y-6">
+    {/* Date Range Selector */}
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-2xl font-bold">Sales Analytics</h1>
+      <div className="flex gap-3">
+        <select className="px-4 py-2 border rounded-lg">
+          <option>Last 7 days</option>
+          <option>Last 30 days</option>
+          <option>Last 3 months</option>
+          <option>Custom range</option>
+        </select>
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+          Download Report
+        </button>
+      </div>
+    </div>
+
+    {/* Revenue Chart */}
+    <div className="bg-white rounded-xl shadow-sm p-6">
+      <h3 className="text-lg font-semibold mb-4">Revenue Overview</h3>
+      <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+        {/* Chart Component Here */}
+        <p className="text-gray-500">Revenue Chart</p>
+      </div>
+    </div>
+
+    {/* Product Performance */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="bg-white rounded-xl shadow-sm p-6">
+        <h3 className="text-lg font-semibold mb-4">Top Selling Products</h3>
+        <div className="space-y-3">
+          {[1, 2, 3, 4, 5].map(i => (
+            <div key={i} className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl font-bold text-gray-400">#{i}</span>
+                <div>
+                  <p className="font-medium">Product Name</p>
+                  <p className="text-sm text-gray-500">123 sales</p>
+                </div>
+              </div>
+              <span className="font-bold">₹12,450</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl shadow-sm p-6">
+        <h3 className="text-lg font-semibold mb-4">Sales by Category</h3>
+        <div className="space-y-3">
+          {['Electronics', 'Fashion', 'Home', 'Books', 'Others'].map(category => (
+            <div key={category}>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm font-medium">{category}</span>
+                <span className="text-sm text-gray-500">45%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-blue-600 h-2 rounded-full" style={{ width: '45%' }}></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+```
+
+## 📱 MOBILE RESPONSIVE DESIGN
+
+```jsx
+// Mobile Navigation
+const MobileNav = () => (
+  <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 lg:hidden">
+    <div className="grid grid-cols-5 gap-1">
+      <button className="p-3 text-center">
+        <svg className="w-6 h-6 mx-auto mb-1">🏠</svg>
+        <span className="text-xs">Home</span>
+      </button>
+      <button className="p-3 text-center">
+        <svg className="w-6 h-6 mx-auto mb-1">📦</svg>
+        <span className="text-xs">Products</span>
+      </button>
+      <button className="p-3 text-center relative">
+        <svg className="w-6 h-6 mx-auto mb-1">➕</svg>
+        <span className="text-xs">Add</span>
+      </button>
+      <button className="p-3 text-center">
+        <svg className="w-6 h-6 mx-auto mb-1">📋</svg>
+        <span className="text-xs">Orders</span>
+      </button>
+      <button className="p-3 text-center">
+        <svg className="w-6 h-6 mx-auto mb-1">👤</svg>
+        <span className="text-xs">Profile</span>
+      </button>
+    </div>
+  </div>
+);
+```
+
+## 🔔 NOTIFICATION SYSTEM
+
+```jsx
+const NotificationCenter = () => (
+  <div className="absolute right-0 top-full mt-2 w-96 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+    <div className="p-4 border-b border-gray-200">
+      <div className="flex items-center justify-between">
+        <h3 className="font-semibold">Notifications</h3>
+        <button className="text-sm text-blue-600 hover:underline">Mark all read</button>
+      </div>
+    </div>
+    
+    <div className="max-h-96 overflow-y-auto">
+      {/* Order Notification */}
+      <div className="p-4 hover:bg-gray-50 border-b border-gray-100">
+        <div className="flex gap-3">
+          <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg className="w-5 h-5 text-green-600">💰</svg>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium">New order received!</p>
+            <p className="text-sm text-gray-600 mt-1">Order #12345 for ₹2,500</p>
+            <p className="text-xs text-gray-500 mt-1">5 minutes ago</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Stock Alert */}
+      <div className="p-4 hover:bg-gray-50 border-b border-gray-100">
+        <div className="flex gap-3">
+          <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg className="w-5 h-5 text-orange-600">⚠️</svg>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium">Low stock alert</p>
+            <p className="text-sm text-gray-600 mt-1">Premium Leather Bag has only 5 items left</p>
+            <p className="text-xs text-gray-500 mt-1">1 hour ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="p-3 bg-gray-50 text-center">
+      <button className="text-sm text-blue-600 hover:underline">View all notifications</button>
+    </div>
+  </div>
+);
+```
+
+## 🚀 ADVANCED FEATURES
+
+### 1. BULK OPERATIONS
+```jsx
+const BulkUpload = () => (
+  <div className="max-w-2xl mx-auto">
+    <div className="bg-white rounded-xl shadow-sm p-8">
+      <h2 className="text-2xl font-bold mb-6">Bulk Product Upload</h2>
+      
+      <div className="mb-6">
+        <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+          <svg className="w-16 h-16 mx-auto text-gray-400 mb-4">📄</svg>
+          <p className="text-lg font-medium mb-2">Upload CSV or Excel file</p>
+          <p className="text-sm text-gray-600 mb-4">or drag and drop</p>
+          <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Select File
+          </button>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+        <div className="flex items-center gap-3">
+          <svg className="w-6 h-6 text-blue-600">💡</svg>
+          <div>
+            <p className="font-medium text-blue-900">Need a template?</p>
+            <p className="text-sm text-blue-700">Download our CSV template with all required fields</p>
+          </div>
+        </div>
+        <button className="text-blue-600 hover:underline">Download</button>
+      </div>
+    </div>
+  </div>
+);
+```
+
+### 2. INVENTORY ALERTS
+```jsx
+const InventorySettings = () => (
+  <div className="space-y-4">
+    <h3 className="font-medium mb-4">Inventory Alerts</h3>
+    
+    <label className="flex items-center justify-between p-4 border rounded-lg">
+      <div>
+        <p className="font-medium">Low Stock Alert</p>
+        <p className="text-sm text-gray-600">Get notified when stock is below threshold</p>
+      </div>
+      <input type="checkbox" className="toggle" checked />
+    </label>
+
+    <label className="flex items-center justify-between p-4 border rounded-lg">
+      <div>
+        <p className="font-medium">Out of Stock Alert</p>
+        <p className="text-sm text-gray-600">Alert when product goes out of stock</p>
+      </div>
+      <input type="checkbox" className="toggle" checked />
+    </label>
+
+    <div className="p-4 border rounded-lg">
+      <label className="block text-sm font-medium mb-2">Low Stock Threshold</label>
+      <input
+        type="number"
+        className="w-full px-4 py-2 border rounded-lg"
+        placeholder="10"
+      />
+    </div>
+  </div>
+);
+```
+
+## ✅ IMPLEMENTATION CHECKLIST
+
+- [ ] Dashboard overview with key metrics
+- [ ] Multi-step product creation form
+- [ ] Rich text editor for descriptions
+- [ ] Image upload with drag-and-drop
+- [ ] Advanced pricing options
+- [ ] Inventory management
+- [ ] Bulk upload functionality
+- [ ] Product variations (size, color)
+- [ ] SEO optimization fields
+- [ ] Analytics and reporting
+- [ ] Order management
+- [ ] Real-time notifications
+- [ ] Mobile responsive design
+- [ ] Search and filtering
+- [ ] Export/Import features
+- [ ] Shipping calculator
+- [ ] Tax settings
+- [ ] Return management
+- [ ] Customer communication
+- [ ] Performance dashboard
+
+## 🎨 DESIGN PRINCIPLES
+
+1. **Clean & Professional** - Minimal clutter, maximum clarity
+2. **Data-Driven** - Show actionable insights
+3. **Efficient Workflows** - Reduce clicks, streamline processes
+4. **Mobile-First** - Full functionality on all devices
+5. **Real-Time Updates** - Live inventory, order notifications
+6. **Guided Experience** - Help text, tooltips, onboarding
+7. **Bulk Operations** - Handle multiple products efficiently
+
+## 🔐 SECURITY CONSIDERATIONS
+
+- Role-based access control
+- Secure file uploads
+- Input validation
+- XSS protection
+- API rate limiting
+- Audit logs
+- Two-factor authentication option
+
+This comprehensive seller dashboard will empower vendors to efficiently manage their online business with professional tools and insights!
