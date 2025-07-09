@@ -9,8 +9,16 @@ const PORT = process.env.PORT || 5000;
 const cors = require('cors');
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 // MongoDB Atlas connection with proper configuration
+const MONGO_URL = process.env.MONGO_URL;
+
+if (!MONGO_URL) {
+  console.error('MONGO_URL environment variable is not set');
+  console.log('Please set MONGO_URL in your Railway environment variables');
+  process.exit(1);
+}
+
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(MONGO_URL)
   .then(() => {
     console.log('Connected to MongoDB Atlas successfully');
   })
