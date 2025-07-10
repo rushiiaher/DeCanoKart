@@ -356,7 +356,7 @@ function AppContent() {
       </div>
 
       <main className={`flex-1 transition-all duration-300 ${
-        scrollDirection === 'down' ? 'pt-[130px] lg:pt-[80px]' : 'pt-[130px] lg:pt-[80px]'
+        scrollDirection === 'down' ? 'pt-[160px] lg:pt-[80px]' : 'pt-[160px] lg:pt-[80px]'
       }`}>
         {currentView === 'products' && !selectedProductId && (
           <>
