@@ -377,6 +377,68 @@ function AppContent() {
               </div>
             </section>
             
+            {/* Category Menu Section */}
+            <section className="pb-8">
+              <div className="container mx-auto px-4">
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-6 max-w-4xl mx-auto">
+                  <div className="flex flex-col items-center p-4 rounded-xl hover:bg-base-200/50 transition-colors duration-200 cursor-pointer group">
+                    <div className="w-12 h-12 md:w-16 md:h-16 mb-2 flex items-center justify-center rounded-full bg-green-100 group-hover:bg-green-200 transition-colors">
+                      <svg className="w-6 h-6 md:w-8 md:h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13v8m0 0l-2-2m2 2l2-2" />
+                      </svg>
+                    </div>
+                    <span className="text-xs md:text-sm font-medium text-center text-base-content group-hover:text-primary transition-colors">Grocery</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center p-4 rounded-xl hover:bg-base-200/50 transition-colors duration-200 cursor-pointer group">
+                    <div className="w-12 h-12 md:w-16 md:h-16 mb-2 flex items-center justify-center rounded-full bg-blue-100 group-hover:bg-blue-200 transition-colors">
+                      <svg className="w-6 h-6 md:w-8 md:h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <span className="text-xs md:text-sm font-medium text-center text-base-content group-hover:text-primary transition-colors">Mobile</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center p-4 rounded-xl hover:bg-base-200/50 transition-colors duration-200 cursor-pointer group">
+                    <div className="w-12 h-12 md:w-16 md:h-16 mb-2 flex items-center justify-center rounded-full bg-pink-100 group-hover:bg-pink-200 transition-colors">
+                      <svg className="w-6 h-6 md:w-8 md:h-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                      </svg>
+                    </div>
+                    <span className="text-xs md:text-sm font-medium text-center text-base-content group-hover:text-primary transition-colors">Fashion</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center p-4 rounded-xl hover:bg-base-200/50 transition-colors duration-200 cursor-pointer group">
+                    <div className="w-12 h-12 md:w-16 md:h-16 mb-2 flex items-center justify-center rounded-full bg-purple-100 group-hover:bg-purple-200 transition-colors">
+                      <svg className="w-6 h-6 md:w-8 md:h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <span className="text-xs md:text-sm font-medium text-center text-base-content group-hover:text-primary transition-colors">Electronics</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center p-4 rounded-xl hover:bg-base-200/50 transition-colors duration-200 cursor-pointer group">
+                    <div className="w-12 h-12 md:w-16 md:h-16 mb-2 flex items-center justify-center rounded-full bg-orange-100 group-hover:bg-orange-200 transition-colors">
+                      <svg className="w-6 h-6 md:w-8 md:h-8 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" />
+                      </svg>
+                    </div>
+                    <span className="text-xs md:text-sm font-medium text-center text-base-content group-hover:text-primary transition-colors">Home & Furniture</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center p-4 rounded-xl hover:bg-base-200/50 transition-colors duration-200 cursor-pointer group">
+                    <div className="w-12 h-12 md:w-16 md:h-16 mb-2 flex items-center justify-center rounded-full bg-red-100 group-hover:bg-red-200 transition-colors">
+                      <svg className="w-6 h-6 md:w-8 md:h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </div>
+                    <span className="text-xs md:text-sm font-medium text-center text-base-content group-hover:text-primary transition-colors">Appliances</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+            
             {/* Hero Banner Section - Placed exactly below the subtitle */}
             <section className="pb-8">
               <div className="container mx-auto px-4">
