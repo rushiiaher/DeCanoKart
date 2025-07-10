@@ -360,7 +360,7 @@ function AppContent() {
       }`}>
         {currentView === 'products' && !selectedProductId && (
           <>
-            <section className="pt-8 pb-8 relative overflow-hidden">
+            <section className="pt-16 pb-8 relative overflow-hidden">
               {/* Background Gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10"></div>
               
