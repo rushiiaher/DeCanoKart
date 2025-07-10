@@ -77,7 +77,28 @@ const CheckoutFlow = ({ onBack, onOrderComplete, onNavigateToTracking }) => {
       {/* Progress Bar */}
       <div className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+          {/* Mobile Layout */}
+          <div className="block md:hidden">
+            <button onClick={onBack} className="text-blue-600 hover:text-blue-800 mb-4">
+              ← Back to Shopping
+            </button>
+            <div className="flex items-center justify-center">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                currentStep >= steps[currentStep - 1].id ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'
+              }`}>
+                {currentStep}
+              </div>
+              <span className="ml-2 text-sm font-medium text-blue-600">
+                {steps[currentStep - 1].name}
+              </span>
+              <span className="ml-2 text-xs text-gray-500">
+                ({currentStep} of {steps.length})
+              </span>
+            </div>
+          </div>
+          
+          {/* Desktop Layout */}
+          <div className="hidden md:flex items-center justify-between">
             <button onClick={onBack} className="text-blue-600 hover:text-blue-800">
               ← Back to Shopping
             </button>
@@ -107,7 +128,7 @@ const CheckoutFlow = ({ onBack, onOrderComplete, onNavigateToTracking }) => {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 md:py-8">
         <CurrentComponent
           checkoutData={checkoutData}
           updateCheckoutData={updateCheckoutData}
