@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
+import { API_CONFIG } from '../utils/apiConfig';
 
 const SellerDashboard = () => {
   const [products, setProducts] = useState([]);
@@ -41,7 +42,7 @@ const SellerDashboard = () => {
   const fetchSellerProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/seller/products', {
+      const response = await fetch(API_CONFIG.getUrl('seller/products'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -62,7 +63,7 @@ const SellerDashboard = () => {
 
   const fetchSellerStats = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/seller/stats', {
+      const response = await fetch(API_CONFIG.getUrl('seller/stats'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -94,7 +95,7 @@ const SellerDashboard = () => {
         }
       };
 
-      const response = await fetch('http://localhost:5000/api/seller/products', {
+      const response = await fetch(API_CONFIG.getUrl('seller/products'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -179,7 +180,7 @@ const SellerDashboard = () => {
         }
       };
 
-      const response = await fetch(`http://localhost:5000/api/seller/products/${editingProduct._id}`, {
+      const response = await fetch(API_CONFIG.getUrl(`seller/products/${editingProduct._id}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -206,7 +207,7 @@ const SellerDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     
     try {
-      const response = await fetch(`http://localhost:5000/api/seller/products/${productId}`, {
+      const response = await fetch(API_CONFIG.getUrl(`seller/products/${productId}`), {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
