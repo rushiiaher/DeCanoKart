@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
 import StarRating from './StarRating';
+import { API_CONFIG } from '../utils/apiConfig';
 
 const Reviews = ({ productId }) => {
   const { user, token } = useAuth();
@@ -15,7 +16,7 @@ const Reviews = ({ productId }) => {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/reviews/${productId}`);
+      const response = await fetch(API_CONFIG.getUrl(`reviews/${productId}`));
       if (response.ok) {
         const data = await response.json();
         setReviews(data);
@@ -31,7 +32,7 @@ const Reviews = ({ productId }) => {
 
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/reviews', {
+      const response = await fetch(API_CONFIG.getUrl('reviews'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

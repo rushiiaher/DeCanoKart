@@ -7,6 +7,7 @@ import ProductRecommendations from './ProductRecommendations';
 import StockNotification from './StockNotification';
 import ReviewForm from './ReviewForm';
 import StarRating from './StarRating';
+import { API_CONFIG } from '../utils/apiConfig';
 
 const ProductDetail = ({ productId, onBack, onProductClick, onBuyNow }) => {
   const { user, token } = useAuth();
@@ -21,11 +22,11 @@ const ProductDetail = ({ productId, onBack, onProductClick, onBuyNow }) => {
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+      const response = await fetch(API_CONFIG.getUrl(`products/${productId}`));
       if (response.ok) {
         const data = await response.json();
         // Fetch reviews for this product
-        const reviewsResponse = await fetch(`http://localhost:5000/api/reviews/${productId}`);
+        const reviewsResponse = await fetch(API_CONFIG.getUrl(`reviews/${productId}`));
         if (reviewsResponse.ok) {
           const reviews = await reviewsResponse.json();
           data.reviews = reviews;
@@ -87,7 +88,7 @@ const ProductDetail = ({ productId, onBack, onProductClick, onBuyNow }) => {
     if (!user) return alert('Please login to add items to wishlist');
     
     try {
-      await fetch('http://localhost:5000/api/wishlist', {
+      await fetch(API_CONFIG.getUrl('wishlist'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

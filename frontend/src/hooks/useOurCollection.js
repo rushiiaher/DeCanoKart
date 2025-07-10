@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_CONFIG } from '../utils/apiConfig';
 
 export const useOurCollection = () => {
   const [products, setProducts] = useState([]);
@@ -12,13 +13,13 @@ export const useOurCollection = () => {
   const fetchOurCollection = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/our-collection');
+      const response = await fetch(API_CONFIG.getUrl('our-collection'));
       if (response.ok) {
         const data = await response.json();
         setProducts(data || []);
       } else {
         // Fallback to regular products if collection fails
-        const fallbackResponse = await fetch('http://localhost:5000/api/products');
+        const fallbackResponse = await fetch(API_CONFIG.getUrl('products'));
         if (fallbackResponse.ok) {
           const fallbackData = await fallbackResponse.json();
           setProducts(fallbackData.slice(0, 20));
@@ -30,7 +31,7 @@ export const useOurCollection = () => {
       console.error('Error fetching our collection:', err);
       // Try to get any products as fallback
       try {
-        const fallbackResponse = await fetch('http://localhost:5000/api/products');
+        const fallbackResponse = await fetch(API_CONFIG.getUrl('products'));
         if (fallbackResponse.ok) {
           const fallbackData = await fallbackResponse.json();
           setProducts(fallbackData.slice(0, 20));

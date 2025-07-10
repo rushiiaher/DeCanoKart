@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+import { API_CONFIG } from '../utils/apiConfig';
 
 export const useApi = (endpoint, dependencies = []) => {
   const [data, setData] = useState(null);
@@ -12,7 +11,7 @@ export const useApi = (endpoint, dependencies = []) => {
     setError(null);
     
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`);
+      const response = await fetch(API_CONFIG.getUrl(endpoint));
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -49,7 +48,7 @@ export const useProducts = (filters = {}) => {
           if (value) params.append(key, value);
         });
         
-        const response = await fetch(`${API_BASE_URL}/products?${params}`);
+        const response = await fetch(API_CONFIG.getUrl(`products?${params}`));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

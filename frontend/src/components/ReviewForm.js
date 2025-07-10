@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
 import StarRating from './StarRating';
+import { API_CONFIG } from '../utils/apiConfig';
 
 const ReviewForm = ({ productId, onReviewSubmitted }) => {
   const { user, token } = useAuth();
@@ -17,7 +18,7 @@ const ReviewForm = ({ productId, onReviewSubmitted }) => {
 
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/reviews', {
+      const response = await fetch(API_CONFIG.getUrl('reviews'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
