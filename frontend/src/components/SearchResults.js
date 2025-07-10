@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ProductCard from './ProductCard';
+import { API_CONFIG } from '../utils/apiConfig';
 
 const SearchResults = ({ searchQuery, onProductClick, onBack }) => {
   const [results, setResults] = useState([]);
@@ -39,7 +40,7 @@ const SearchResults = ({ searchQuery, onProductClick, onBack }) => {
         sortBy: sortBy
       });
 
-      const response = await fetch(`http://localhost:5000/api/search?${params}`);
+      const response = await fetch(`${API_CONFIG.BASE_URL}/search?${params}`);
       
       if (response.ok) {
         const data = await response.json();
