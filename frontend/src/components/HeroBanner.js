@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// Fixed images for production deployment
 
 const HeroBanner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
