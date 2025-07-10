@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { API_CONFIG } from '../utils/apiConfig';
 
 const WishlistContext = createContext();
 
@@ -48,7 +49,7 @@ export const WishlistProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const response = await fetch('http://localhost:5000/api/wishlist', {
+        const response = await fetch(API_CONFIG.getUrl('wishlist'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (response.ok) {
@@ -84,7 +85,7 @@ export const WishlistProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        await fetch('http://localhost:5000/api/wishlist', {
+        await fetch(API_CONFIG.getUrl('wishlist'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ export const WishlistProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        await fetch(`http://localhost:5000/api/wishlist/${productId}`, {
+        await fetch(API_CONFIG.getUrl(`wishlist/${productId}`), {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -120,7 +121,7 @@ export const WishlistProvider = ({ children }) => {
       try {
         // Clear each item from database
         for (const item of state.items) {
-          await fetch(`http://localhost:5000/api/wishlist/${item._id}`, {
+          await fetch(API_CONFIG.getUrl(`wishlist/${item._id}`), {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` }
           });

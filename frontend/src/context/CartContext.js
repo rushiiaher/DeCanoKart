@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
+import { API_CONFIG } from '../utils/apiConfig';
 
 const CartContext = createContext();
 
@@ -67,7 +68,7 @@ export const CartProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const response = await fetch('http://localhost:5000/api/cart', {
+        const response = await fetch(API_CONFIG.getUrl('cart'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (response.ok) {
@@ -107,7 +108,7 @@ export const CartProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        await fetch('http://localhost:5000/api/cart', {
+        await fetch(API_CONFIG.getUrl('cart'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -126,7 +127,7 @@ export const CartProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        await fetch(`http://localhost:5000/api/cart/${productId}`, {
+        await fetch(API_CONFIG.getUrl(`cart/${productId}`), {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -147,11 +148,11 @@ export const CartProvider = ({ children }) => {
     if (token) {
       try {
         // Remove old item and add new with updated quantity
-        await fetch(`http://localhost:5000/api/cart/${productId}`, {
+        await fetch(API_CONFIG.getUrl(`cart/${productId}`), {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${token}` }
         });
-        await fetch('http://localhost:5000/api/cart', {
+        await fetch(API_CONFIG.getUrl('cart'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -172,7 +173,7 @@ export const CartProvider = ({ children }) => {
       try {
         // Clear each item from database
         for (const item of state.items) {
-          await fetch(`http://localhost:5000/api/cart/${item._id}`, {
+          await fetch(API_CONFIG.getUrl(`cart/${item._id}`), {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` }
           });
