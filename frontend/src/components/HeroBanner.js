@@ -7,7 +7,7 @@ const HeroBanner = () => {
   const banners = [
     {
       id: 1,
-      image: process.env.PUBLIC_URL + '/images/AlbedoBase_XL_Create_a_captivating_homepage_banner_for_the_De_3.jpg',
+      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop',
       title: 'Premium Collection',
       subtitle: 'Discover luxury products crafted for excellence',
       buttonText: 'Shop Now',
@@ -15,7 +15,7 @@ const HeroBanner = () => {
     },
     {
       id: 2,
-      image: process.env.PUBLIC_URL + '/images/AlbedoBase_XL_On_the_De_Canocart_ecommerce_website_banners_wit_1 (1).jpg',
+      image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1200&h=600&fit=crop',
       title: 'Exclusive Deals',
       subtitle: 'Up to 50% off on selected items',
       buttonText: 'Explore Deals',
@@ -23,7 +23,7 @@ const HeroBanner = () => {
     },
     {
       id: 3,
-      image: process.env.PUBLIC_URL + '/images/AlbedoBase_XL_On_the_De_Canocart_ecommerce_website_banners_wit_2 (1).jpg',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop',
       title: 'New Arrivals',
       subtitle: 'Latest trends and fashion essentials',
       buttonText: 'View Collection',
@@ -31,7 +31,7 @@ const HeroBanner = () => {
     },
     {
       id: 4,
-      image: process.env.PUBLIC_URL + '/images/AlbedoBase_XL_On_the_De_Canocart_ecommerce_website_banners_wit_3 (1).jpg',
+      image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=600&fit=crop',
       title: 'Free Shipping',
       subtitle: 'On orders above ₹999 across India',
       buttonText: 'Start Shopping',
