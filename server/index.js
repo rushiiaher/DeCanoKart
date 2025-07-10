@@ -34,11 +34,12 @@ app.use(express.json());
 
 // CORS configuration for production
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: process.env.CORS_ORIGIN === '*' ? true : (process.env.CORS_ORIGIN || 'http://localhost:3000'),
   credentials: true,
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
+console.log('CORS Origin set to:', process.env.CORS_ORIGIN);
 
 // Health check endpoint
 app.get('/', (req, res) => {
