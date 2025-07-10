@@ -73,7 +73,7 @@ const CheckoutFlow = ({ onBack, onOrderComplete, onNavigateToTracking }) => {
   }, [onBack, onNavigateToTracking]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-[160px] lg:pt-[80px]">
       {/* Progress Bar */}
       <div className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
