@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
+import { API_CONFIG } from '../utils/apiConfig';
 
 const Login = ({ onClose, switchToRegister, switchToReset }) => {
   const [email, setEmail] = useState('');
@@ -33,7 +34,7 @@ const Login = ({ onClose, switchToRegister, switchToReset }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://localhost:5000/api/seller/register', {
+      const response = await fetch(API_CONFIG.getUrl('seller/register'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: name.trim(), email, password })
