@@ -39,6 +39,24 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
+
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'De Canokart API is running!', 
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    message: 'API is healthy', 
+    status: 'ok',
+    timestamp: new Date().toISOString()
+  });
+});
  
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
